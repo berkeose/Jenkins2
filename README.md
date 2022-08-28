@@ -606,6 +606,221 @@
 ![AGENT2](https://user-images.githubusercontent.com/81867200/187083637-e28c1321-f01a-475f-bac3-ee08d709ef64.png)
 
 
+## PRIVATE DOCKER REGISTRY
+### Private Registry Kurulumu
+#### $ docker run -d -p 5000:5000 --restart always --name registry registry:2
+
+![DOCKERREGISTRY](https://user-images.githubusercontent.com/81867200/187083858-672657bb-cd7e-49b9-94c8-1a85e14812ef.png)
+
+
+## OPENSSH - SERVER KURULUMU
+
+### OPENSSH-SERVER YÜKLEMEK & KALDIRMAK
+#### Sadece openssh-server’ı kaldırmak istiyorsak:
+#### $ sudo apt-get remove openssh*
+#### openssh-server’ı tüm bağımlılıklarıyla kaldırmak istiyorsak:
+#### $ sudo apt-get remove --auto-remove openssh*
+#### openssh-server ve ayar dosyalarını kaldırmak istiyorsak:
+#### $ sudo apt-get purge openssh*
+#### openssh-server, bağımlılıkları ve ayar dosyalarınıkaldırmak istiyorsak:
+#### $ sudo apt-get purge --auto-remove openssh*
+#### $ apt-get update
+#### $ apt-get install openssh-server
+
+### Kurulum Detayları:
+![OPENSSH](https://user-images.githubusercontent.com/81867200/187084074-a45facb7-56dd-4711-b918-36d5a878d7ee.png)
+
+
+## GIT'E SSH ANAHTARIYLA BAĞLANMAK
+### SSH ANAHTARLARI OLUŞTURMAK VE KULLANIMA AÇMAK
+![GITSSH](https://user-images.githubusercontent.com/81867200/187084165-d539183e-9a0b-4fa3-865a-4bfdf2241e0e.png)
+
+### GITHUB & JENKINS SSH ANAHTAR AYARLARI
+#### Jenkins üstünde Global Credential oluşturuyoruz.
+####  - SSH Username with private key seçeneğiyle
+####  - Username ile bağlanacağımız sistemin kullanıcı adı,
+####  - ID bilgisini biz yazarsak anlamlı ve eşsiz bir tanımlama, boş bırakırsak UUID değer atanır,
+####  - Private Key kısmına bir önceki sayfada hazırladığımız SSH anahtarının private kısmını yapıştırırız. Böylece Jenkins privte anahtar içeren dosyayı aramak, dosya         yoluna bağlı kalmak zorunda olmayacaktır.
+#### -  Passphrase ise ssh-keygen ile SSH anahtarını oluştururken bize gizli bir parola girmemizi istediğinde yazdığımız metin.
+
+#### Github üstünden kişisel ayarlardan SSH and GPG keys sekmesinde ise Key kısmına SSH anahtarımızın public anahtarının içeriğini yapıştırıyoruz ve tanımlama için title alanına ayrıştırılabilir bir metin girilir.
+
+![GITSSH1](https://user-images.githubusercontent.com/81867200/187084303-bc4d2fb3-a92c-4352-ae36-43a3586fa9e9.png)
+
+## GIT'E KULLANICI ADI & PARALOYLA BAĞLANMAK
+### FREESTYLE PROJEDE HTTPS & SSH GIT REPO BAĞLANTISI
+#### Jenkins üstünde oluşturduğumuz “SSH Username with private key” türündeki credential’ı kullanabileceğimiz GİT SCM Reposuna SSH ile bağlantı kurmamız gerekiyor.
+![HTTPSSSH](https://user-images.githubusercontent.com/81867200/187084476-3b7f68cc-d516-4327-ae15-8d85434cf794.png)
+![HTTPSSSH1](https://user-images.githubusercontent.com/81867200/187084527-66228896-8b5c-490c-ba94-369146c28ecb.png)
+![HTTPSSSH2](https://user-images.githubusercontent.com/81867200/187084566-aac66186-2f10-464e-9037-7ee85e54b668.png)
+
+### Pipeline Projede Https & SSH Git Repo Bağlantısı
+#### Jenkins üstünde oluşturduğumuz “SSH Username with private key” türündeki credential’ı kullanabileceğimiz GİT SCM Reposuna SSH ile bağlantı kurmamız gerekiyor.
+![PIPHTTPSSSH](https://user-images.githubusercontent.com/81867200/187084727-e3e16ffb-4c63-422e-a7ee-86c0b84d8a2b.png)
+
+## BITBUCKET PROJESIYLE JENKINS JOB TETIKLEMEK
+http://www.adobe.com.by/pdf/meetup-12/Meetup_12_Mytroshin.pdf
+http://www.adobe.com.by/en/#archive1
+
+## LINUX MINT'E JENKINS KURULUMU
+![LINUXMINT](https://user-images.githubusercontent.com/81867200/187084858-df261ce8-0315-4dd4-9a3d-652f4e0a1680.png)
+
+## GROOVY İLE SCRIP YAZMAK
+### VERİ TİPLERİ
+![GRROOVY](https://user-images.githubusercontent.com/81867200/187084935-a228649a-0e93-4da9-bb61-e8a97ea73414.png)
+
+### BAŞLIKLAR
+https://www.leveluplunch.com/groovy/examples/#groovy-net
+https://www.leveluplunch.com/groovy/examples/#groovy-xml
+https://www.leveluplunch.com/groovy/examples/#groovy-string
+https://www.leveluplunch.com/groovy/examples/#groovy-number
+https://www.leveluplunch.com/groovy/examples/#groovy-html
+https://www.leveluplunch.com/groovy/examples/#groovy-date
+https://www.leveluplunch.com/groovy/examples/#groovy-collections
+
+### STRING
+![STRING](https://user-images.githubusercontent.com/81867200/187085733-92f82ce1-ee6a-437d-b107-b70f55a64a45.png)
+
+![STRING1](https://user-images.githubusercontent.com/81867200/187085821-74b2b7cc-b36c-4d50-8eb1-41336ad1b309.png)
+
+![STRING2](https://user-images.githubusercontent.com/81867200/187085936-1fafacbd-9fea-4f26-ad7f-d4457ebf2be9.png)
+
+### STRING MANİPÜLASYONLARI
+![STRING3](https://user-images.githubusercontent.com/81867200/187085994-d3aa923b-f641-4c34-a630-05bc7b40f703.png)
+
+### ARRAY FONKSİYONLARI
+![STRING4](https://user-images.githubusercontent.com/81867200/187086045-f8d7a34d-2f87-4e83-83a5-cd4e31f99795.png)
+
+### LIST
+![STRING5](https://user-images.githubusercontent.com/81867200/187086109-a93b9c5a-f89d-43b7-847d-133ebcd67836.png)
+
+### SET
+![STRING6](https://user-images.githubusercontent.com/81867200/187086158-715e0289-7454-4a4a-b7f0-45f228f0f378.png)
+
+### MAP
+![STRING7](https://user-images.githubusercontent.com/81867200/187086208-f92df70b-7980-4402-bddc-289f8fc60337.png)
+
+### RANGE
+![STRING8](https://user-images.githubusercontent.com/81867200/187086252-dc6b91ae-cfa3-47d3-8065-7f050cf62496.png)
+
+### LOOP
+![STRING9](https://user-images.githubusercontent.com/81867200/187086298-57e04807-b01d-4a78-bb43-05d2b0423ae2.png)
+
+### DÜZENLİ İFAEDELER REGEXP
+![STRING10](https://user-images.githubusercontent.com/81867200/187086363-cdecdbae-f11c-4d20-bbee-893012064f0d.png)
+
+
+## JENKINS SH
+
+### SH
+![SH](https://user-images.githubusercontent.com/81867200/187086674-335936a1-6f99-48c7-a081-ca60eeff347b.png)
+
+## JENKINS DEĞİŞKEN TANIMLAMA
+![SH1](https://user-images.githubusercontent.com/81867200/187086701-af6cb61b-e388-4cc8-b086-e6a25bf4b96b.png)
+
+![SH2](https://user-images.githubusercontent.com/81867200/187086738-dbe54884-053b-4eca-8c6e-e758b92feb59.png)
+
+![SH3](https://user-images.githubusercontent.com/81867200/187086763-a2edbebe-d04e-4fd9-9065-4112628c22df.png)
+
+![SH4](https://user-images.githubusercontent.com/81867200/187086794-65245fe3-af76-44ac-afa0-72bb21910440.png)
+
+## JENKINS ENVIRONMENT VARIABLES
+
+### ENVIRONMENT VARIABLE
+#### İşletim sisteminin ortam değişkenlerine windows için
+#### %DeğişkenAdı% , linux için $DeğişkenAdı ile erişiyoruz.
+#### Ortam değişkenleri tüm hat içerisinden erişilebilen yerel ve global değişkenlerdir.
+#### İşletim sistemi seviyesinde tanımlı env. vars’a erişmek için windows os üstünde koşan bir batch için $env.PATH,
+
+### Environment Tanımı & Refactor Etmek
+![ENV](https://user-images.githubusercontent.com/81867200/187086936-779eccb6-9e65-4b4c-8ad6-cc65e070c542.png)
+
+### ENV VAR SIRALAMASI
+![ENV1](https://user-images.githubusercontent.com/81867200/187086991-5d52b819-0fca-4ab8-9b09-547cbbef8eb6.png)
+
+### Global ve Local Değişkenler ve Local Ortam Değişkenleri
+![ENV2](https://user-images.githubusercontent.com/81867200/187087053-c9789e89-0e2c-4de9-8575-208283c6a951.png)
+
+![ENV3](https://user-images.githubusercontent.com/81867200/187087097-ca3ef8ea-c39c-45a1-a6eb-7b5b416ba163.png)
+
+![ENV4](https://user-images.githubusercontent.com/81867200/187087127-457b1dfe-1b76-4027-85d1-042ad810d6b4.png)
+
+### GLOBALDE TANIMLI ÖZEL ENV. VAR.
+#### Jobların erişmesini istediğiniz temel değerleri global env. vars. içinde tanımlayabilirsiniz. Örneğin sprint koşunuzun numarası, üretilecek projenin versiyon numarası vs. için değerleri globalde bir kere tanımlayıp tüm projeler için globaldeki değişkenler gibi (örneğin BUILD_NUMBER’a WORKSPACE’e erişir gibi) erişebilirsiniz.
+
+![ENV5](https://user-images.githubusercontent.com/81867200/187087198-1355e6c9-9463-42ef-8a5a-d9db909f92a2.png)
+
+## JENKINS DECLARATIVE PIPELINE ÖRNEĞİ
+
+### DECLARATIVE JENKINS
+![PIPDEEC](https://user-images.githubusercontent.com/81867200/187087287-f2f6b216-3ceb-49f4-82db-acad77c92754.png)
+
+### DECLARATIVE PIPELINE'I ANLAMAK
+#### DSL ile Jenkins Script arasındaki fark; daha kolay kodlama yapabileceğimiz Domain Specific Language olarak tanımlayabiliriz.
+![PIPDEEC1](https://user-images.githubusercontent.com/81867200/187087352-4575691d-a786-4dcd-984f-6ffc7d175487.png)
+
+### DECLARATIVE JENKINS PIPIELINE
+![PIPDEEC2](https://user-images.githubusercontent.com/81867200/187087396-dc8c2b73-8538-43d2-bbe3-6131d86c0074.png)
+
+![PIPDEEC3](https://user-images.githubusercontent.com/81867200/187087436-29b1dc9d-9230-4d17-83c9-a35eff718683.png)
+
+## HATA YÖNETİMİ (ERROR)
+### ERROR
+#### Kendimiz hata uydurmak istersek error(mesajımız) fonksiyonunu kullanırız.
+![ERROR](https://user-images.githubusercontent.com/81867200/187087487-63094f28-fd4f-415a-8d8a-90de9a7feb25.png)
+
+### TRY - CATCH - FINALLY
+![TRYCATCH](https://user-images.githubusercontent.com/81867200/187087524-ed2027d8-824e-44e9-a344-ec32dfdbee9d.png)
+
+### RETRY(N)
+![RETRY](https://user-images.githubusercontent.com/81867200/187087557-952f8e5d-8584-4360-8671-6cc4bd5757f3.png)
+
+### CATCHERROR
+#### Birden fazla projenin kullandığı ortak kütüphanede mi değişiklik yaparak hepsini etkilemek istersiniz yoksa tek tek her projeye gidip değişiklik mi yapmak istersiniz?
+
+## SHARED LIBRARY
+
+### NEDEN SHARED LIBRARY
+#### Paylaşılan kitaplık deposu klasör yapısına sahiptir.
+![SHARED](https://user-images.githubusercontent.com/81867200/187087619-293e9bf3-850f-41e9-a626-0718b473a344.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
 
 
