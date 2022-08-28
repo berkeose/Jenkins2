@@ -259,7 +259,385 @@
 
 ![ym3](https://user-images.githubusercontent.com/81867200/187050248-0b5fefc2-055d-4eb7-b7fd-846d19dca392.png)
 
-41!
+## DOCKER İLE JENKINS KURULUMLARI
+
+### Master Agent Node
+### Birinci ve yöneten Jenkins düğümünün kurulumu
+
+### Hangi Docker Yansısı?
+### Birinci Jenkins düğümü için (eskiden master derdik) jenkins/jenkins yansısını kullanabilirken, ikinci yahut işçi jenkins ajanları için jenkins/slave yansısını kullabiliriz (slave de yakında kaldırılır).
+
+### $ docker pull jenkins/jenkins
+### $ docker pull jenkins/slave
+
+## DOCKER İLE MASTER JENKINS KURULUMU - 1
+![DJ1](https://user-images.githubusercontent.com/81867200/187073080-6b5fbfb5-381f-4dc9-bc47-bd0c15b0d73b.png)
+### Jenkins docker görüntünüzün (image) içinde docker görüntüleri (images) oluşturmayı planlamıyorsanız, örneğimdeki --privileged bayrağını göz ardı edebilirsiniz.
+
+### Reverse proxy olarak nginx çalıştırmak istersek, nginx dosyasının default.conf içeriği:
+![DJ2](https://user-images.githubusercontent.com/81867200/187073166-11d37744-0da6-4726-a05a-342d5a28666d.png)
+
+## Docker ile Master Jenkins Kurulumu - 2
+### Docker ile ister komut satırından ister kitematic ile jenkins/jenkins isimli docker yansısını yükleyebiliriz.
+
+### Kurulum sonrasında docker attach  container-id ile container konsol ekranında neler olduğunu görebiliriz.
+  ![DJ3](https://user-images.githubusercontent.com/81867200/187073245-8569f0f7-038e-47b7-ad9c-c6ae367c3f1d.png)
+### Komut satırında -d anahtarı olmada çalıştırırsak jenkins ön planda çalışır ve işletilen komutların çıktılarını yani jenkins processinin I/O çıktılarını kullandığımız konsol üstünde görebiliriz. Ama -d anahtarını kullanırsak bu bilgileri görmek için docker attach container-name komutunu çalıştırmamız gerekir.
+![DJ4](https://user-images.githubusercontent.com/81867200/187073363-3acbda15-2bf8-45d2-a0ab-1966f4f1e32e.png)
+
+### Slave Agent Node
+### Sonraki Jenkins ajan düğümlerinin kurulumları
+
+## DOCKER İLE SLAVE JENKINS KURULUMU
+![DJ5](https://user-images.githubusercontent.com/81867200/187073445-e62298a9-fa73-40af-814d-0e54e82a0398.png)
+
+## Slave Jenkins Ajanı Üstünde İş Çalıştırmak
+![DJ6](https://user-images.githubusercontent.com/81867200/187073612-b5990bdb-5652-4a38-a77d-4d5df5fb247e.png)
+
+## Jenkins Terminali Root İle Kullanmak
+![DJ7](https://user-images.githubusercontent.com/81867200/187074043-921673ce-5f04-466a-b40b-dd44ac121eee.png)
+### Konteyner ile terminal bağlantısı kurmak istediğimizde --user root argümanı eklersek root yetkisiyle bash’e bağlanabiliriz. root Kullanıcısıyla apt işlemlerini yapabilir ve sistem seviyesinde nodejs kurulumu sağlarız. --privileged Argümanı da root ile bağlanmamızı sağlar.
+![DJ8](https://user-images.githubusercontent.com/81867200/187074093-355f5664-fbc3-48cc-bf7b-63a080e2e6cd.png)
+
+## JENKINS'IN VARSAYILAN DİLİNİ DEĞİŞTİRMEK
+![DJ9](https://user-images.githubusercontent.com/81867200/187074248-095bb3a8-78bd-475f-83c2-5baf7ea5e110.png)
+### Özetle:
+### - Locale eklentisini indir
+### - Jenkins -> Ayarlar/Configuration Kısmında “Varsayılan Dil” yerine istediğiniz dili kısa koduyla yazın (tr, en, fr gibi)
+### - İnternet gezgininizin diliyle görüntülenmemesi için altındaki “ignore browser preference..” seçilir
+![DJ10](https://user-images.githubusercontent.com/81867200/187074283-8409ba9e-9902-4b78-acc7-c204600d1d26.png)
+
+## DOCKER İLE MASTER JENKINS KURULUMU - 3
+### Jenkins'in Şifresi
+### Kurulum sırasında jenkins ilk giriş için bir şifre oluşturacak ve bunu konsolumuza yazacak. jenkins_home Dizinini bağladığınız kendi diskinizdeki klasörü silerseniz ve jenkins tekrar kurulurken yine aynı konsolu göreceksiniz.
+
+### Eğer burayı kaçırırsanız docker stop "container-name" ile konteynerınızı durdurup başka bir konsol ekranından docker attach <container-name|id> ile birazdan açacağınız docker container konsolunu takip edebilirsiniz. Tekrar docker start "container-name" ile başlatırken attach olduğunu konsolda gizli anahtarı görebilirsiniz.
+
+### Docker logs "container-name" ile de ulaşabilirsiniz.
+![DJ11](https://user-images.githubusercontent.com/81867200/187074481-2399b3fc-dc66-4b63-86b5-281013a93f32.png)
+
+![DJ12](https://user-images.githubusercontent.com/81867200/187074488-844f4ffc-d136-4c1a-80b5-74baca0ce7e2.png)
+
+## NODEJS KURULUMU - 1
+### Konteyner ile terminal bağlantısı kurmak istediğimizde --user root argümanı eklersek root yetkisiyle bash’e bağlanabiliriz. root Kullanıcısıyla apt işlemlerini yapabilir ve sistem seviyesinde nodejs kurulumu sağlarız.
+
+![NODEJS1](https://user-images.githubusercontent.com/81867200/187074613-db7d724b-251b-4d9f-9f41-9ba27bb5bea6.png)
+### NOT: Resimde gördüğünüz gibi root yetkisi olmadan :/$ ile diğer türlü :/# ile terminale düşüyoruz.
+
+### NodeJs kurulumu için paket listesini güncelleyelim ve sistem üstünde nodejs kurulumu yapalım ve sonunda node ve npm versiyonunu görüntüleyelim:
+![NODEJS2](https://user-images.githubusercontent.com/81867200/187074685-1deed9d5-b985-43c0-967f-22b6802d4d19.png)
+
+![NODEJS3](https://user-images.githubusercontent.com/81867200/187074700-b3293845-f489-4a7f-a566-b558d84ed1b6.png)
+
+## NODEJS KURULUMU - 2
+### Jenkins “NodeJS Plugin” eklentisiyle (plugin) nodejs çalıştırabilir. Bu eklentiyle Nodejs’in farklı sürümlerini araç olarak (tools) kurabilir ve job içinde shell için PATH'e kaydeder ve npm, node uygulamalarını çalıştırabilirsiniz.
+![NODEJS4](https://user-images.githubusercontent.com/81867200/187074834-896e9740-489b-4c64-a50e-4353aa074e7b.png)
+
+## NODEJS İÇİN TOOLS ARKA PLANDA NE YAPAR?
+### NodeJS eklentisi kurulduktan sonra Manage Jenkins > Global Tool Configuration içinde hangi NodeJS sürümlerini kullanmak istiyorsanız bir etiketle tanımını yaparsınız. Aşağıdaki örnekte 3 farklı sürüm için 3 etiket tanımlanmış. Hangisi job içinde kullanılırsa o sürüm /var/jenkins_home/tools içine indirilir ve shell içinden erişilebilmesi için geçici PATH içinde tanımlanır. Böylece node veya npm çağrısı yapıldığında NodeJS uygulamalarına erişilebilinir.
+ ![NODEJS5](https://user-images.githubusercontent.com/81867200/187075014-31cda5c5-adbc-47fa-b60e-580a5e27f246.png)
+ 
+![NODEJS6](https://user-images.githubusercontent.com/81867200/187075017-930d9bd0-2faf-4aca-a71f-822872f548a1.png)
+
+## JENKINS KONTEYNER İÇİNDE NODEJS KURULUMU
+### Önce terminal ekranına giriş yapalım:
+![DNODEJS](https://user-images.githubusercontent.com/81867200/187075246-1355a512-7c9b-4444-ab0a-45a62492ab0e.png)
+
+### Paket listesini güncelleyip node kurulumu yapalım ve unutmayalım setup_8.x deprecate olduğu için yerine 10 veya 12 kurmak daha iyi olacaktır:
+![DNODEJS1](https://user-images.githubusercontent.com/81867200/187075253-ede0eb77-88e9-47af-8c6f-3f469b334311.png)
+
+### Ve son çıktı:
+![DNODEJS2](https://user-images.githubusercontent.com/81867200/187075266-dc379a63-fe2f-4a38-99c0-5c3ad869d7e5.png)
+
+
+## SSH JENKINS SLAVE
+
+## SANAL/FİZİKİ MAKİNA
+![SF](https://user-images.githubusercontent.com/81867200/187075386-ef312cdf-8749-4470-a1d3-c7bea82067bc.png)
+
+## DOCKER KONTEYNER
+![DOCKERCONT](https://user-images.githubusercontent.com/81867200/187075722-c297bee6-8705-486c-9a39-53827687c903.png)
+
+## DOCKER JENKINS SLAVE
+
+## DOCKER KONTEYNER İÇİNDE JENKINS SLAVE ÇALIŞTIRMAK - 1
+![DOCKERCONT1](https://user-images.githubusercontent.com/81867200/187075778-2ae8adf7-9f1f-4855-a043-7b423699cd64.png)
+
+## DOCKER KONTEYNER İÇİNDE JENKINS SLAVE ÇALIŞTIRMAK - 2
+![DOCKERCONT2](https://user-images.githubusercontent.com/81867200/187075999-805219d5-6a34-4c48-b058-5ca9be2bbf09.png)
+
+## DOCKER RUN İLE SLAVE NODE
+![DOCKERCONT3](https://user-images.githubusercontent.com/81867200/187076082-b3c02960-6ec4-48df-952f-8dd9f2663fce.png)
+
+## GIT'I TANITALIM
+![JENGIT](https://user-images.githubusercontent.com/81867200/187076189-7bad137c-5552-4496-b571-d65a0dfe38a2.png)
+### whereis git diyerek konteyner içinde git’in yerini buluruz ve node üstünde Tool Locations içine git’in dosya yolunu gireriz, hepsi bu.
+![JENGIT1](https://user-images.githubusercontent.com/81867200/187076233-ee619a35-b607-4952-b5dd-80967c94e856.png)
+## DİSKİMİZİ BAĞLAYALIM
+![DISK](https://user-images.githubusercontent.com/81867200/187076350-8fc64515-ea71-4910-9f09-0cca24da704a.png)
+## WHEREIS NPM
+![WHEREIS](https://user-images.githubusercontent.com/81867200/187076473-4105a232-acd2-4fee-af5e-b98254ab40ad.png)
+
+## -JENKINS AYARLARI-
+
+## JENKINS İLE ADMIN KULLANICISI OLUŞTURMAK
+### İlk ekrana girdiğiniz gizli kelimeden sonra önerilen pluginleri kurar ve ardından kullanıcı tanımlarsınız. Ve artık jenkins hizmetinize sizin tayin ettiğiniz (örn. 8080) porttan başlatılır.
+
+
+## GLOBAL TOOL CONFIGURATION
+
+### JDK
+### Linux üstünde $ which javac ile JDK dizininin yolunu öğrenebilir ve Global Tool tanımlayabiliriz.
+![JDK](https://user-images.githubusercontent.com/81867200/187076923-41f93929-16f9-43e6-81ca-46b608941aac.png)
+
+### GIT
+### Linux üstünde $ which git ile GİT dizininin yolunu öğrenebilir ve Global Tool Configuration içinde tanımlayabiliriz.
+![GIT](https://user-images.githubusercontent.com/81867200/187076960-de9d2794-c096-4c51-9c09-cb4ac39bdb7a.png)
+
+### NODEJS
+### Linux üstünde $ which node ile Node dizininin yolunu öğrenebilir ve Global Tool Configuration içinde tanımlayabiliriz.
+![NODEJSSSS](https://user-images.githubusercontent.com/81867200/187077004-7936d08c-120e-4894-9fab-d878d7bc74c7.png)
+
+## GITHUB AUTHENTICATION
+### Bilgisayarınızda lokalde çalışan bir jenkins olsun. Kodlarınızı barındırdığınız git adresini projenizin Source Code Management sekmesine girdiniz. Jenkins arka tarafta HEAD metoduyla ilgili adrese bir istek yapacak. Eğer kullanıcı bilgileriniz geçerli değilse aşağıdaki hatayı verecek.
+ ![GITAUT](https://user-images.githubusercontent.com/81867200/187077102-18817392-3fe0-4f31-b007-94301896c739.png)
+ 
+ ### Bu durumda artık github için bir kullanıcı doğrulama yöntemi seçerek devam etmeliyiz.
+### - Windows Kimlik Yöneticisinde kullanıcı bilgilerinin depolanması
+### - Username ve Password ikilisi olan credential
+### - Github Token kullanmak
+
+### KULLANICI BİLGİLERİ YÖNETİCİSİ
+### Konsol üstünden github reposunun clone ile çekilmesi sağlandığında Windows Kimlik Bilgileri Yöneticisi kullanıcı bilgilerini depolayacak ve eğer Credentials açılır kutusundan bir seçim yapılmamışsa, Jenkins her github için arka planda yapacağı istekte sistemde kayıtlı olan bu bilgileri kullanacak.
+![KULLANICI](https://user-images.githubusercontent.com/81867200/187077652-af41a937-a36c-4768-8e0d-58a5095e12b2.png)
+
+![KULLANICI1](https://user-images.githubusercontent.com/81867200/187077669-11d8d88b-de81-4684-a42f-138a2340478a.png)
+### Github için yapılacak istek başarısızsa aşağıdaki gibi, başarılıysa boş gövdeli cevap döner
+![KULLANICI2](https://user-images.githubusercontent.com/81867200/187077684-436b3cad-fc62-4707-8651-da6a15a6b875.png)
+
+### GİTHUB KULLANICI ADI VE ŞİFRESİ
+### Sistemde kayıtlı kullanıcı bilgileri yerine belirlediğimiz credential ile bağlanmak istediğimiz durumdur. Github reposunu yazdığımız yerde Add düğmesiyle (veya Jenkins Credential menüsünden) Username with Password tipinde bir tanımlama yaparız. Kullanıcı adı ve şifresiyle bir credential oluşturup projenin Source Code Management sekmesinde Credentials açılır kutusunda seçili hale getirebiliriz.
+![KULLANICI3](https://user-images.githubusercontent.com/81867200/187077846-72d641d2-4c61-49df-ba18-ceb37f906450.png)
+
+
+### GIT TOKEN İLE WEBHOOK 
+### (1) Github üstünden bir Token yaratıp Jenkins içinde yeni bir Credential olarak tanımlarız. (2) Bu kez Jenkins’in tüm projeleri tarafından kullanılabilecek şekilde token bilgisini ayarlayacağız Manage Jenkins / Configure System / Github içinde az önce oluşturduğumuz TOKEN seçilerek Github server ile webhook için kullanılacak token ayarlanır. 
+![KULLANICI4](https://user-images.githubusercontent.com/81867200/187077940-958515ec-6c42-4127-b4a5-ae4dba569ec1.png)
+
+### Oluşturduğumuz token’ın testi için curl -u username:token https://api.github.com/user komutunu konsoldan çalıştırabiliriz.
+
+### GITHUB AYARI
+### Github üstündeki bir repoya bağlanmak istersek github sunucu ayarlarına hangi token ile bağlanacağımızı söylememiz gerekiyor. Sonrasında projemizin General ayarlarında bu projenin bir Github projesi olduğunu seçmeli ve Source Code Management içinde git seçeneğini işaretleyip hangi adresten veri çekeceksek projenin bağlı olduğu github kaynak kodunun adresini ve hangi branch üstünde koşacağımızı belirtmeliyiz.
+![KULLANICI5](https://user-images.githubusercontent.com/81867200/187078097-459db0ed-e8c4-4ee7-af3e-6cf8046698ee.png)
+
+### Build ettiğimizde kodun indiğini görürüz.
+
+### GITHUB PUBLIC REPO AYARI
+### Projenin (burada ng_form adında freestyle tipinde), Configure sekmesinden Source Code Management kısmında Git seçilip, clone yapmak için kullandığımız adresini yapıştıralım. Projeyi build ettiğimizde kodlar çekilerek workspace içine dosyalarımız konulacak.
+![KULLANICI6](https://user-images.githubusercontent.com/81867200/187078218-a5bffad1-cc19-4881-ba39-135d2dd0b837.png)
+
+### GITHUB PRIVATE REPO AYARI
+### Önce kayıtlı şifreyi silelim ki; github üstünde private repomuza giderken şifre sorulur hale gelsin ve yerelde çalışan jenkins için de şifre istensin. Böylece Github token yaratma yoluna gidelim. git config --global credential.helper store ile kullanıcı adı ve şifresini bilgisayara depolayacağız demiş oluruz. Kullanıcı adı ve şifresini ilk girdiğimiz anda önce %USERPROFILE\.git-credentials dosyasına https://gitKullaniciAdi:gitSifresi@github.com bilgisi yazılır ardından Windows Kimlik Bilgileri Yöneticisi bu bilgileri ön bellekler.
+
+### Eğer Windows Kimlik Bilgileri Yöneticisi üstünden siler tekrar git clone ile yerele kodları çekmek istediğimizde kullanıcı bilgileri WinKimlikBilgYöneticisi üstünden okunmak istenir, bulunamayınca .git-credentials dosyasından veriler okunur ve WinKimlikBilgYöneticisi üstüne tekrar yazılır.Bir sonraki clone işleminde WinKimlikBilgYöneticisi kullanıcı bilgilerini servis eder ve .git-credentials dosyasına gerek kalmadan kullanıcı girişi sağlanmış olur.
+![KULLANICI7](https://user-images.githubusercontent.com/81867200/187078377-2f2024f7-e65d-450f-b203-3176ba9729ee.png)
+
+
+## DECLARATIVE PIPELINE VE GİT AKSİYONLARI
+![DECPIP](https://user-images.githubusercontent.com/81867200/187078478-e852b88c-b25e-4931-bb82-8d995308f614.png)
+
+![DECPIP1](https://user-images.githubusercontent.com/81867200/187078500-8e5bfffa-8e60-440c-b8c3-17792c54da82.png)
+
+![DECPIP2](https://user-images.githubusercontent.com/81867200/187078549-29a891dd-86ae-4eba-b229-0945ad39b702.png)
+
+
+## PROJELERİ SIRALI TETİKLEMEK
+### Sıralı Olarak Proejeleri Build Etmek
+![SIRALI](https://user-images.githubusercontent.com/81867200/187078640-57f0ac38-cb19-4f83-8a75-88f0651296ec.png)
+
+### Delivery Pipeline ile Görselleştirme
+![SIRALI1](https://user-images.githubusercontent.com/81867200/187078908-c5fdd6ba-ef60-4b71-97c4-a71c4a2406d7.png)
+
+
+## AGENT/NODE TANIMLAMA (SLAVE JENKINS)
+![JMS](https://user-images.githubusercontent.com/81867200/187078990-af94b652-d3d0-4d6b-8210-5dc7b88a9509.png)
+
+### GEREKENLER
+### - VirtualBox veya VMware Player kurula
+### - En hafifinden linux kurulu bir disk indirilip sanal makine (virtual machine) çalıştırılabilir.
+### - Sanal makine içine java kurulabilir.
+### - openssh-server linux içine kurulup dışarıdan erişilebilir hale getirilebilir.
+### - jenkins içinde yeni vm’in bilgileriyle bir node/agent oluşturulabilir.
+
+### SANAL LINUX KURULUMU
+### https://www.osboxes.org/linux-lite/ Adresinden linux kurulu disk indirilerek VirtualBox üstüne eklenir.Hemen “passwd” komutuyla osboxes.org kullanıcısı, “sudo passwd root” ile root şifresi değiştirilir.
+![LINUX](https://user-images.githubusercontent.com/81867200/187079243-9c40d10c-7a6c-4b7a-b43e-a976290e579e.png)
+
+![LINUX1](https://user-images.githubusercontent.com/81867200/187079341-9451a833-7305-42eb-9688-aeddd25c6d38.png)
+
+### LINUX AĞ AYARLARI
+### mtui kullanıcı arayüzü, dhclient veya ifconfig ile ağ işlemlerini yapabiliriz.
+
+### Ağ Ayarlarını Görüntülemek
+### DHCP Sunucusuna “merhaba” gönderip iletişimi görelim
+#### $ dhclient -v
+#### $ ifconfig -a
+
+### Ağ Ayarlarını Tazelemek
+#### $ sudo dhclient -v -r
+#### $ ifconfig ağ_adı down
+#### $ ifdown ağ_adı
+#### $ ifconfig ağ_adı up
+#### $ ifup ağ_adı
+
+### Ağ Servisini Yeniden Başlatmak
+#### $ /etc/init.d/nscd restart
+
+
+
+### JAVA YÜKLEMEK & KALDIRMAK
+![JAVAKUR](https://user-images.githubusercontent.com/81867200/187079584-5b47bdd9-62ec-474c-b86c-6b97e657cdfd.png)
+
+### YENİ KULLANICI TANIMLAMAK 
+### Master olan Jenkins projelerin tanımlandığı, ayarlarının yapılıp yapılandırmak için tetiklendiği ve çıktıların gözlemlendiği ilk kurulumumuzdur.
+ 
+### Diğer sunucular (node/agent’lar) ise agent.jar isimli dosyanın sürekli çalışıp master jenkins tarafından gelen işlerin yapıldığı düğümlerdir. Bu düğümlere job’ların yüklenmesi için bir kullanıcı tanımlanır ve master jenkins, sshmarifetiyle bağlanarak ilgili agent.jar dosyasını yükler ve çalıştırır. agent.jar Dosyası tabiatı gereği Java kurulumu da gerektirdiği için önceden yüklenmiş olması gerekir.
+ 
+### Kullanıcı Silmek
+### Silinmek istenen kullanıcı aktif bir processleri killall ile durdurulur veya zorla (force) silmek istediğimizi -f argümanı ile veririz.
+#### $ killall -u kullanıcı_adı
+#### $ userdel -f --remove-home kullanıcı_adı
+
+### Yeni Kullanıcı Oluşturmak
+#### $ useradd -m cemkins
+
+### Yeni Kullanıcıya Şifre Atamak
+### cemkins kullanıcısının yeni şifresini iki kez girilir ve yeni kullanıcıyla sisteme giriş yapılar.
+#### $ passwd cemkins
+
+
+### Yeni Kullanıcı Profilinde Jenkinse Özel Dizin Oluşturmak
+### Yeni kullanıcının profili /home/kullanıcıAdı dizininde oluşacaktır. Jenkins bu klasörün altına remote.jar dosyası ve remote dizini oluşturacağı için derli toplu olsun diye biz jenkinsKokDizini diye bir klasör oluşturalım.
+#### $ mkdir jenkinsKokDizini
+
+
+### SSH KURULUMU
+### ssh Secure Shell anlamıa gelir ve telnetin şifrelenmiş halidir. sshd ise servis (daemon) halinde çalışan ssh sunucusudur. shd_config içinde yapılan değişikliklerin etkili olması için servisin tekrar başlatılması gerekir.
+
+### ssh Server Kurulur
+#### $ sudo apt-get install openssh-server
+
+### ssh Servisi Faal Edilir
+#### $ sudo systemctl enable ssh
+
+### ssh Servisi Başlatılır
+#### $ sudo systemctl start ssh
+
+### Servisin Durumu Kontrol Edilir
+#### $ sudo systemctl status ssh
+
+### ssh Bağlantısı Test Edilir
+#### $ ssh root@makina-adı|ip
+
+
+
+### Dışarıdan Bağlanmak İçin Ayar Yapılandırılır
+### # ile başlayan satırlar yorum satırı demektir. Bazı komutların yorum satırı olmadığı belirtmemiz gerekecek:
+#### $ vi /etc/ssh/sshd_config
+
+#### #PermitRootLogin prohibit-password
+#### satırı aşağıdaki hale getirilir
+#### PermitRootLogin yes
+
+#### #PasswordAuthentication yes
+#### yorum satırı olmaktan çıkarılır
+#### PasswordAuthentication yes
+
+#### Eğer ssh key ile giriş yapılabilsin istiyorsak aşağıdaki satırlar yorum satırı olmaktan çıkarılır
+#### #PubkeyAuthentication yes
+#### #AuthorizedKeysFile .ssh/authorized_keys
+
+
+### SSH SORUN GİDERME
+#### SSH bağlantısı sırasında “Host key verification failed.*” hatası alınırsa, bağlantı kurulacak makina için “bilinen hostlar” dosyasında güncelleme yapmak için $ ssh-keygen -R 192.168.99.102 komutu çalıştırılır. IP adresi, bağlantı kurmak istediğiniz uzak makinanın adresi veya ismidir. 
+![SSH](https://user-images.githubusercontent.com/81867200/187081125-d11efc35-befd-4da6-a76c-7ec524491d5e.png)
+#### known_hosts dosyası .ssh dizini altındadır.
+#### $ ssh-keygen -R <ip | host_adı>
+#### Komutuyla her uzak bağlantı için bir key üreterek
+#### güvenilir bağlantılar listesine ekler.
+
+
+#### SSH servisini otomatik üretiyorduk ve diyelimki ayarlar dosyası çalışmaz hale geldi ve aşağıdaki hatayı almaya başladık:
+#### Unit sshd.service could not be found
+
+#### Tüm openssh-server’ı kaldırmak yerine konfigurasyon dosyalarını kaldırıp tekrar kurulum yapmak yeterli olacaktır.
+#### $ apt-get purge openssh-server
+#### $ apt-get install openssh-server
+
+#### Elbette tüm ssh server’ın kaldırılıp tekrar kurulmasında da sakınca yok
+#### $ apt-get remove --purge openssh-server
+#### $ apt-get install openssh-server
+#### $ service ssh restart
+#### $ service ssh status
+
+
+### Docker Jenkins İçin Plug-In Kurulumunda Hata
+#### Docker versiyonu jenkins/jenkins yansısını kullanıyor ve plugin güncellemesi yapamadığını görüyorsanız jenkinsin pluginleri indirebileceği adresi ortam değişkeni olarak jenkins kabınıza vermeniz gerekiyor.
+
+#### Bunu 3 farklı adresi verip deneyebilirsiniz:
+#### 1. http://ftp-nyc.osuosl.org/pub/jenkins
+#### 2. http://mirrors.jenkins-ci.org
+#### 3. https://updates.jenkins.io/download/plugins
+#### Kitematik ile veya docker kabınızı çalıştırırken yapabilirsiniz
+#### docker run --name jenkinscim
+#### .... #### -e JENKINS_UC_DOWNLOAD
+#### 'http://ftp-nyc.osuosl.org/pub/jenkins'
+#### jenkins/jenkins
+
+![SSH1](https://user-images.githubusercontent.com/81867200/187081373-59aae5a8-7db5-4990-b1f1-cf32c47d4d8b.png)
+
+### AGENT LAUNCH SORUN GİDERME
+![SSH2](https://user-images.githubusercontent.com/81867200/187081468-a41e55fd-1148-4166-a96c-b302447307a3.png)
+
+
+## AGENT TANIMLAMA
+![AGENT](https://user-images.githubusercontent.com/81867200/187081554-aa963456-3e16-48e0-9468-e46f974641d9.png)
+
+![AGENT2](https://user-images.githubusercontent.com/81867200/187083637-e28c1321-f01a-475f-bac3-ee08d709ef64.png)
+
+
+ 
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
 
 
 
